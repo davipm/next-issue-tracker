@@ -1,0 +1,111 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "postgresql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Channel {
+  id        String       @id
+  name      String
+  type      Channel_type @default(TEXT)
+  profileId String
+  serverId  String
+  createdAt DateTime     @default(now())
+  updatedAt DateTime
+
+  @@index([profileId])
+  @@index([serverId])
+}
+
+model Conversation {
+  id          String @id
+  memberOneId String
+  memberTwoId String
+
+  @@unique([memberOneId, memberTwoId])
+  @@index([memberTwoId])
+}
+
+model DirectMessage {
+  id             String   @id
+  content        String   @db.Text
+  fileUrl        String?  @db.Text
+  memberId       String
+  conversationId String
+  deleted        Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime
+
+  @@index([conversationId])
+  @@index([memberId])
+}
+
+model Member {
+  id        String      @id
+  role      Member_role @default(GUEST)
+  profileId String
+  serverId  String
+  createdAt DateTime    @default(now())
+  updatedAt DateTime
+
+  @@index([profileId])
+  @@index([serverId])
+}
+
+model Message {
+  id        String   @id
+  content   String   @db.Text
+  fileUrl   String?  @db.Text
+  memberId  String
+  channelId String
+  deleted   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+
+  @@index([channelId])
+  @@index([memberId])
+}
+
+model Profile {
+  id        String   @id
+  userId    String   @unique
+  name      String
+  imageUrl  String   @db.Text
+  email     String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+}
+
+model Server {
+  id         String   @id
+  name       String
+  imageUrl   String   @db.Text
+  inviteCode String   @unique
+  profileId  String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime
+
+  @@index([profileId])
+}
+
+enum Member_role {
+  ADMIN
+  MODERATOR
+  GUEST
+}
+
+enum Channel_type {
+  TEXT
+  AUDIO
+  VIDEO
+}
