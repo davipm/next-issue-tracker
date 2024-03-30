@@ -6,11 +6,11 @@ import { Container, Theme } from "@radix-ui/themes";
 import { ReactNode } from "react";
 import { QueryProvider } from "@/providers/query-provider";
 import AuthProvider from "@/providers/auth-provider";
-import { NavBar } from "@/components/NavBar";
+import { NavBar } from "@/components/nav-bar";
 
 const inter = Inter({
   subsets: ["latin"],
-  variable: '--font-inter'
+  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
