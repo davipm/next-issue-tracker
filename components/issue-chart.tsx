@@ -9,8 +9,13 @@ interface Props {
   closed: number;
 }
 
+type Data = {
+  label: "Open" | "In Progress" | "Closed";
+  value: number;
+};
+
 export function IssueChart({ open, closed, inProgress }: Props) {
-  const data = [
+  const data: Data[] = [
     { label: "Open", value: open },
     { label: "In Progress", value: inProgress },
     { label: "Closed", value: closed },
