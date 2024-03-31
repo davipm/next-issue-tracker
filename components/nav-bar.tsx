@@ -1,11 +1,12 @@
 "use client";
 
-import { Avatar, Box, Container, DropdownMenu, Flex, Skeleton, Text } from "@radix-ui/themes";
 import Link from "next/link";
+import { Avatar, Box, Container, DropdownMenu, Flex, Skeleton, Text } from "@radix-ui/themes";
 import { AiFillBug } from "react-icons/ai";
 import { usePathname } from "next/navigation";
+import { useSession, signOut, signIn } from "next-auth/react";
+
 import { cn } from "@/lib/utils";
-import { useSession } from "next-auth/react";
 
 export function NavBar() {
   return (
@@ -53,9 +54,9 @@ const AuthStatus = () => {
 
   if (status === "unauthenticated") {
     return (
-      <Link className="nav-ink" href="/api/auth/singin">
+      <Text onClick={() => signIn("google")} className="hover:cursor-pointer">
         Login
-      </Link>
+      </Text>
     );
   }
 
@@ -77,7 +78,9 @@ const AuthStatus = () => {
             <Text size="2">{session?.user?.email}</Text>
           </DropdownMenu.Label>
           <DropdownMenu.Item>
-            <Link href="/api/auth/singout">Log out</Link>
+            <Text onClick={() => signOut()} className="hover:cursor-pointer">
+              Log out
+            </Text>
           </DropdownMenu.Item>
         </DropdownMenu.Content>
       </DropdownMenu.Root>

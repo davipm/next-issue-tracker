@@ -50,5 +50,16 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 }
 
 export async function DELETE(req: NextRequest, { params }: Params) {
-  //
+  const session = await getServerSession(authOptions);
+  if (!session) return res.json({}, { status: 401 });
+
+  const issue = await db.issue.findUnique({
+    where: { id: parseInt(params.id) },
+  });
+
+  if (!issue) return res.json({ error: "Invalid issue." }, { status: 400 });
+
+  await db.issue.delete({ where: { id: issue.id } });
+
+  return res.json({});
 }

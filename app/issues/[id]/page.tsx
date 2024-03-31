@@ -1,7 +1,43 @@
-export default function Page() {
+import { cache } from "react";
+import { db } from "@/lib/db";
+import { getServerSession } from "next-auth";
+import authOptions from "@/lib/auth";
+import { notFound } from "next/navigation";
+import { Box, Flex, Grid } from "@radix-ui/themes";
+
+interface Props {
+  params: { id: string };
+}
+
+const fetchUser = cache((issueId: number) => db.issue.findUnique({ where: { id: issueId } }));
+
+export async function generateMetadata({ params }: Props) {
+  const issue = await fetchUser(parseInt(params.id));
+
+  return {
+    title: issue?.title,
+    description: `Details of issue ${issue?.description}`,
+  };
+}
+
+export default async function Page({ params }: Props) {
+  const session = await getServerSession(authOptions);
+  const issue = await fetchUser(parseInt(params.id));
+
+  if (!issue) notFound();
+
   return (
-    <div>
-      <p>Page</p>
-    </div>
+    <Grid columns={{ initial: "1", sm: "5" }} gap="5">
+      <Box className="md:col-span-4">{/* TODO: IssueDetails */}</Box>
+      {session && (
+        <Box>
+          <Flex direction="column" gap="4">
+            {/* TODO: AssigneeSelect */}
+            {/* TODO: EditIssueButton */}
+            {/* TODO: DeleteIssueButton */}
+          </Flex>
+        </Box>
+      )}
+    </Grid>
   );
 }
