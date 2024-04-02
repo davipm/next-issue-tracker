@@ -4,6 +4,8 @@ import { getServerSession } from "next-auth";
 import authOptions from "@/lib/auth";
 import { notFound } from "next/navigation";
 import { Box, Flex, Grid } from "@radix-ui/themes";
+import { IssueDetails } from "@/components/issues/issue-details";
+import { AssigneeSelect } from "@/components/issues/assignee-select";
 
 interface Props {
   params: { id: string };
@@ -12,6 +14,7 @@ interface Props {
 const fetchUser = cache((issueId: number) => db.issue.findUnique({ where: { id: issueId } }));
 
 export async function generateMetadata({ params }: Props) {
+  console.log({ id: params.id });
   const issue = await fetchUser(parseInt(params.id));
 
   return {
@@ -28,11 +31,13 @@ export default async function Page({ params }: Props) {
 
   return (
     <Grid columns={{ initial: "1", sm: "5" }} gap="5">
-      <Box className="md:col-span-4">{/* TODO: IssueDetails */}</Box>
+      <Box className="md:col-span-4">
+        <IssueDetails issue={issue} />
+      </Box>
       {session && (
         <Box>
           <Flex direction="column" gap="4">
-            {/* TODO: AssigneeSelect */}
+            <AssigneeSelect issue={issue} />
             {/* TODO: EditIssueButton */}
             {/* TODO: DeleteIssueButton */}
           </Flex>

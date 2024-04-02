@@ -4,7 +4,7 @@ import authOptions from "@/lib/auth";
 import { issueSchema } from "@/schema/validationSchema";
 import { getServerSession } from "next-auth";
 
-export default async function POST(req: NextRequest) {
+export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
 
   if (!session) return res.json({}, { status: 401 });
