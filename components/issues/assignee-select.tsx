@@ -11,11 +11,8 @@ export function AssigneeSelect({ issue }: { issue: Issue }) {
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  const {
-    data: users,
-    error,
-    isLoading,
-  } = useQuery<User[]>({
+  // prettier-ignore
+  const { data: users, error, isLoading} = useQuery<User[]>({
     queryKey: ["users"],
     staleTime: 60 * 1000,
     retry: 3,
