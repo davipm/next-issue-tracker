@@ -6,6 +6,8 @@ import { notFound } from "next/navigation";
 import { Box, Flex, Grid } from "@radix-ui/themes";
 import { IssueDetails } from "@/components/issues/issue-details";
 import { AssigneeSelect } from "@/components/issues/assignee-select";
+import { EditIssueButton } from "@/components/edit-issue-button";
+import { DeleteIssueButton } from "@/components/delete-issue-button";
 
 interface Props {
   params: { id: string };
@@ -38,8 +40,8 @@ export default async function Page({ params }: Props) {
         <Box>
           <Flex direction="column" gap="4">
             <AssigneeSelect issue={issue} />
-            {/* TODO: EditIssueButton */}
-            {/* TODO: DeleteIssueButton */}
+            <EditIssueButton issueId={issue.id} />
+            <DeleteIssueButton issueId={issue.id} />
           </Flex>
         </Box>
       )}
