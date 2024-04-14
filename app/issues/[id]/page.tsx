@@ -4,8 +4,8 @@ import { getServerSession } from "next-auth";
 import authOptions from "@/lib/auth";
 import { notFound } from "next/navigation";
 import { Box, Flex, Grid } from "@radix-ui/themes";
-import { IssueDetails } from "@/components/issues/issue-details";
-import { AssigneeSelect } from "@/components/issues/assignee-select";
+import { IssueDetails } from "@/components/issue-details";
+import { AssigneeSelect } from "@/components/assignee-select";
 import { EditIssueButton } from "@/components/edit-issue-button";
 import { DeleteIssueButton } from "@/components/delete-issue-button";
 

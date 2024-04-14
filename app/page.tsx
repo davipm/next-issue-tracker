@@ -1,8 +1,8 @@
 import { Flex, Grid } from "@radix-ui/themes";
 import { Metadata } from "next";
 import { db } from "@/lib/db";
-import { IssueChart } from "@/components/issues/issue-chart";
-import { IssueSummary } from "@/components/issues/issue-summary";
+import { IssueChart } from "@/components/issue-chart";
+import { IssueSummary } from "@/components/issue-summary";
 import { LatestIssues } from "@/components/latest-issues";
 
 export const dynamic = "force-dynamic";

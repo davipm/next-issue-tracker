@@ -1,14 +1,13 @@
 "use client";
 
 import axios from "axios";
-import { useRouter } from "next/navigation";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { AlertDialog, Button, Flex, Spinner } from "@radix-ui/themes";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+import { AlertDialog, Button, Flex, Spinner } from "@radix-ui/themes";
 
 export function DeleteIssueButton({ issueId }: { issueId: number }) {
   const router = useRouter();
-  // const queryClient = useQueryClient();
 
   const [error, setError] = useState(false);
 

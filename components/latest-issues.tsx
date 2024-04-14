@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import { Avatar, Card, Flex, Heading, Table } from "@radix-ui/themes";
 import Link from "next/link";
-import { IssueStatusBadge } from "@/components/issues/issue-status-badge";
+import { IssueStatusBadge } from "@/components/issue-status-badge";
 
 export async function LatestIssues() {
   const issues = await db.issue.findMany({
