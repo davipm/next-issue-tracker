@@ -38,7 +38,7 @@ const columns: Columns[] = [
 
 export const columnsNames = columns.map((column) => column.value);
 
-export default function IssueTable({ searchParams, issues }: Props) {
+export function IssueTable({ searchParams, issues }: Props) {
   return (
     <Table.Root variant="surface">
       <Table.Header>

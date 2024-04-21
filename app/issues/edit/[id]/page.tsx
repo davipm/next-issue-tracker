@@ -1,11 +1,16 @@
-"use client";
+import { db } from "@/lib/db";
+import { notFound } from "next/navigation";
 
-import { useState } from "react";
+interface Props {
+  params: { id: string };
+}
 
-// import { Container } from "./styles";
+export default async function Page({ params }: Props) {
+  const issue = await db.issue.findUnique({
+    where: { id: parseInt(params.id) },
+  });
 
-export default function Page() {
-  const [item, setItem] = useState(null);
+  if (!issue) notFound();
 
   return (
     <div>

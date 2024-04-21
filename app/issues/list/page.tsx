@@ -1,13 +1,48 @@
-"use client";
+import { Status } from "@prisma/client";
+import { Flex } from "@radix-ui/themes";
+import { Metadata } from "next";
+import { IssueQuery, columnsNames, IssueTable } from "@/components/issue-table";
+import { db } from "@/lib/db";
+import { IssueActions } from "@/components/issue-actions";
 
-import { useState } from "react";
+interface Props {
+  searchParams: IssueQuery;
+}
 
-export default function Page({}) {
-  const [item, setItem] = useState(null);
+export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Issue Tracker - Issue List",
+  description: "View all project issues",
+};
+
+export default async function Page({ searchParams }: Props) {
+  const statuses = Object.values(Status);
+  const status = statuses.includes(searchParams.status) ? searchParams.status : undefined;
+  const where = { status };
+
+  const orderBy = columnsNames.includes(searchParams.orderBy) ? { [searchParams.orderBy]: "asc" } : undefined;
+
+  const page = parseInt(searchParams.page) || 1;
+  const pageSize = 10;
+
+  const issues = await db.issue.findMany({
+    where,
+    orderBy,
+    skip: (page - 1) * pageSize,
+    take: pageSize,
+    // include: { assignedToUser: true },
+  });
+
+  const issueCount = await db.issue.count({ where });
+
+  console.log({ issueCount });
 
   return (
-    <div>
-      <p>List</p>
-    </div>
+    <Flex direction="column" gap="3">
+      <IssueActions />
+      <IssueTable searchParams={searchParams} issues={issues} />
+      {/* TODO: Pagination */}
+    </Flex>
   );
 }
