@@ -1,4 +1,5 @@
 import "@radix-ui/themes/styles.css";
+import "easymde/dist/easymde.min.css";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";

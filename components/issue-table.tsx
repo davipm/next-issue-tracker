@@ -44,7 +44,7 @@ export function IssueTable({ searchParams, issues }: Props) {
       <Table.Header>
         <Table.Row>
           {columns.map((column) => (
-            <Table.ColumnHeaderCell key={column.value}>
+            <Table.ColumnHeaderCell key={column.value} className={column.className}>
               <NextLink
                 href={{
                   query: {
@@ -64,7 +64,7 @@ export function IssueTable({ searchParams, issues }: Props) {
 
       <Table.Body>
         {issues.map((issue) => (
-          <Table.Body key={issue.id}>
+          <Table.Row key={issue.id}>
             <Table.Cell>
               <Link href={`/issues/${issue.id}`}>{issue.title}</Link>
               <div className="block md:hidden">
@@ -75,7 +75,7 @@ export function IssueTable({ searchParams, issues }: Props) {
               <IssueStatusBadge status={issue.status} />
             </Table.Cell>
             <Table.Cell className="hidden md:table-cell">{issue.createdAt.toDateString()}</Table.Cell>
-          </Table.Body>
+          </Table.Row>
         ))}
       </Table.Body>
     </Table.Root>

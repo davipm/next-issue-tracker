@@ -1,15 +1,11 @@
-"use client";
+import dynamic from "next/dynamic";
+import { IssueFormSkeleton } from "@/components/issue-form-skeleton";
 
-import { useState } from "react";
-
-// import { Container } from "./styles";
+const IssueForm = dynamic(() => import("@/components/issue-form"), {
+  ssr: false,
+  loading: () => <IssueFormSkeleton />,
+});
 
 export default function Page() {
-  const [item, setItem] = useState(null);
-
-  return (
-    <div>
-      <p>New</p>
-    </div>
-  );
+  return <IssueForm />;
 }

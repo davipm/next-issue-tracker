@@ -4,6 +4,7 @@ import { Metadata } from "next";
 import { IssueQuery, columnsNames, IssueTable } from "@/components/issue-table";
 import { db } from "@/lib/db";
 import { IssueActions } from "@/components/issue-actions";
+import { Pagination } from "@/components/pagination";
 
 interface Props {
   searchParams: IssueQuery;
@@ -36,13 +37,11 @@ export default async function Page({ searchParams }: Props) {
 
   const issueCount = await db.issue.count({ where });
 
-  console.log({ issueCount });
-
   return (
     <Flex direction="column" gap="3">
       <IssueActions />
       <IssueTable searchParams={searchParams} issues={issues} />
-      {/* TODO: Pagination */}
+      <Pagination itemCount={issueCount} pageSize={pageSize} currentPage={page} />
     </Flex>
   );
 }

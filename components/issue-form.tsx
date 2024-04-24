@@ -16,7 +16,7 @@ import { Spinner } from "@/components/Spinner";
 
 type IssueFormData = z.infer<typeof issueSchema>;
 
-export function IssueForm({ issue }: { issue?: Issue }) {
+export default function IssueForm({ issue }: { issue?: Issue }) {
   const router = useRouter();
   const {
     register,
@@ -42,7 +42,7 @@ export function IssueForm({ issue }: { issue?: Issue }) {
   });
 
   return (
-    <div className="max-w-xl">
+    <>
       {error && (
         <Callout.Root>
           <Callout.Text>{error.message}</Callout.Text>
@@ -50,7 +50,13 @@ export function IssueForm({ issue }: { issue?: Issue }) {
       )}
 
       <form className="space-y-3" onSubmit={handleSubmit((data) => mutate(data))}>
-        <TextField.Root variant="surface" defaultValue={issue?.title} placeholder="Title" {...register("title")} />
+        <TextField.Root
+          size="3"
+          variant="surface"
+          defaultValue={issue?.title}
+          placeholder="Title"
+          {...register("title")}
+        />
         <ErrorMessage>{errors.title?.message}</ErrorMessage>
 
         <Controller
@@ -62,10 +68,10 @@ export function IssueForm({ issue }: { issue?: Issue }) {
 
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
 
-        <Button type="submit" disabled={isPending}>
+        <Button type="submit" disabled={isPending} className="hover:cursor-pointer">
           {isPending ? "Update issue..." : "Submit new Issue"} {isPending && <Spinner />}
         </Button>
       </form>
-    </div>
+    </>
   );
 }
