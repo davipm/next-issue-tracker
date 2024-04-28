@@ -3,7 +3,7 @@ import "easymde/dist/easymde.min.css";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Container, Theme } from "@radix-ui/themes";
+import { Container, Theme, ThemePanel } from "@radix-ui/themes";
 import { ReactNode } from "react";
 import { QueryProvider } from "@/providers/query-provider";
 import AuthProvider from "@/providers/auth-provider";
@@ -25,11 +25,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className={inter.className}>
         <QueryProvider>
           <AuthProvider>
-            <Theme accentColor="violet">
+            <Theme accentColor="violet" radius="large" scaling="110%">
               <NavBar />
               <main className="p-5">
                 <Container>{children}</Container>
               </main>
+              <ThemePanel />
             </Theme>
           </AuthProvider>
         </QueryProvider>

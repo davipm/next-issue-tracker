@@ -1,7 +1,8 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { Flex, Text } from "@radix-ui/themes";
+import { Button, Flex, Text } from "@radix-ui/themes";
+import { ChevronLeftIcon, ChevronRightIcon, DoubleArrowLeftIcon, DoubleArrowRightIcon } from "@radix-ui/react-icons";
 
 interface Props {
   itemCount: number;
@@ -17,7 +18,7 @@ export function Pagination({ itemCount, currentPage, pageSize }: Props) {
   if (pageCount <= 1) return null;
 
   const changePage = (page: number) => {
-    const params = new URLSearchParams();
+    const params = new URLSearchParams(searchParams);
     params.set("page", page.toString());
     router.push("?" + params.toString());
   };
@@ -28,7 +29,26 @@ export function Pagination({ itemCount, currentPage, pageSize }: Props) {
         Page {currentPage} of {pageCount}
       </Text>
 
-      {/* TODO: finishing the component */}
+      <Button color="gray" variant="soft" disabled={currentPage === 1} onClick={() => changePage(1)}>
+        <DoubleArrowLeftIcon />
+      </Button>
+
+      <Button color="gray" variant="soft" disabled={currentPage === 1} onClick={() => changePage(currentPage - 1)}>
+        <ChevronLeftIcon />
+      </Button>
+
+      <Button
+        color="gray"
+        variant="soft"
+        disabled={currentPage === pageCount}
+        onClick={() => changePage(currentPage + 1)}
+      >
+        <ChevronRightIcon />
+      </Button>
+
+      <Button color="gray" variant="soft" disabled={currentPage === pageCount} onClick={() => changePage(pageCount)}>
+        <DoubleArrowRightIcon />
+      </Button>
     </Flex>
   );
 }

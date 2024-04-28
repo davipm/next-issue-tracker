@@ -69,7 +69,7 @@ export default function IssueForm({ issue }: { issue?: Issue }) {
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
 
         <Button type="submit" disabled={isPending} className="hover:cursor-pointer">
-          {isPending ? "Update issue..." : "Submit new Issue"} {isPending && <Spinner />}
+          {issue ? "Update issue..." : "Submit new Issue"} {isPending && <Spinner />}
         </Button>
       </form>
     </>
