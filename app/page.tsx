@@ -6,25 +6,27 @@ import { IssueSummary } from "@/components/issue-summary";
 import { LatestIssues } from "@/components/latest-issues";
 
 export const dynamic = "force-dynamic";
-export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: "Issue Tracker - Dashboard",
   description: "View a summary of project issues",
 };
 
+async function getIssueStats() {
+  const issueCounts = await db.issue.groupBy({
+    by: ["status"],
+    _count: true,
+  });
+
+  const open = issueCounts.find((issue) => issue.status === "OPEN")?._count || 0;
+  const inProgress = issueCounts.find((issue) => issue.status === "IN_PROGRESS")?._count || 0;
+  const closed = issueCounts.find((issue) => issue.status === "CLOSED")?._count || 0;
+
+  return { open, inProgress, closed };
+}
+
 export default async function Home() {
-  const open = await db.issue.count({
-    where: { status: "OPEN" },
-  });
-
-  const inProgress = await db.issue.count({
-    where: { status: "IN_PROGRESS" },
-  });
-
-  const closed = await db.issue.count({
-    where: { status: "CLOSED" },
-  });
+  const { open, inProgress, closed } = await getIssueStats();
 
   return (
     <Grid columns={{ initial: "1", md: "2" }} gap="5">
