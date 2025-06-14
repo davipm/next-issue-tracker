@@ -1,9 +1,11 @@
 import "@radix-ui/themes/styles.css";
 import "easymde/dist/easymde.min.css";
 import "./globals.css";
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Container, Theme, ThemePanel } from "@radix-ui/themes";
+import { Toaster } from "react-hot-toast";
 import { ReactNode } from "react";
 import { QueryProvider } from "@/providers/query-provider";
 import AuthProvider from "@/providers/auth-provider";
@@ -34,6 +36,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </Theme>
           </AuthProvider>
         </QueryProvider>
+        <Toaster />
       </body>
     </html>
   );
