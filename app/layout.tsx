@@ -32,7 +32,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               <main className="p-5">
                 <Container>{children}</Container>
               </main>
-              <ThemePanel />
+              {/*<ThemePanel />*/}
             </Theme>
           </AuthProvider>
         </QueryProvider>

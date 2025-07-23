@@ -12,12 +12,14 @@ datasource db {
 model Issue {
   id               Int      @id @default(autoincrement())
   title            String   @db.VarChar(255)
-  description      String
+  description      String   @db.Text
   status           Status   @default(OPEN)
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
   assignedToUserId String?  @db.VarChar(255)
-  assignedToUser   User?    @relation(fields: [assignedToUserId], references: [id])
+  assignedToUser   User?    @relation(fields: [assignedToUserId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+  @@index([assignedToUserId])
 }
 
 model Account {

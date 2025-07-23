@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import { db } from "@/lib/db";
+import { prismaClient } from "@/lib/db";
 import { notFound } from "next/navigation";
 import IssueFormSkeleton from "@/components/issue-form-skeleton";
 
@@ -13,7 +13,7 @@ const IssueForm = dynamic(() => import("@/components/issue-form"), {
 });
 
 export default async function Page({ params }: Props) {
-  const issue = await db.issue.findUnique({
+  const issue = await prismaClient.issue.findUnique({
     where: { id: parseInt(params.id) },
   });
 

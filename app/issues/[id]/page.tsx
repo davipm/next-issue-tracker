@@ -1,5 +1,5 @@
 import { cache } from "react";
-import { db } from "@/lib/db";
+import { prismaClient } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import authOptions from "@/lib/auth";
 import { notFound } from "next/navigation";
@@ -13,10 +13,9 @@ interface Props {
   params: { id: string };
 }
 
-const fetchUser = cache((issueId: number) => db.issue.findUnique({ where: { id: issueId } }));
+const fetchUser = cache((issueId: number) => prismaClient.issue.findUnique({ where: { id: issueId } }));
 
 export async function generateMetadata({ params }: Props) {
-  console.log({ id: params.id });
   const issue = await fetchUser(parseInt(params.id));
 
   return {

@@ -2,7 +2,7 @@ import { Status } from "@prisma/client";
 import { Flex } from "@radix-ui/themes";
 import { Metadata } from "next";
 import { IssueQuery, columnsNames, IssueTable } from "@/components/issue-table";
-import { db } from "@/lib/db";
+import { prismaClient } from "@/lib/db";
 import { IssueActions } from "@/components/issue-actions";
 import { Pagination } from "@/components/pagination";
 
@@ -27,7 +27,7 @@ export default async function Page({ searchParams }: Props) {
   const page = parseInt(searchParams.page) || 1;
   const pageSize = 10;
 
-  const issues = await db.issue.findMany({
+  const issues = await prismaClient.issue.findMany({
     where,
     orderBy,
     skip: (page - 1) * pageSize,
@@ -35,7 +35,7 @@ export default async function Page({ searchParams }: Props) {
     // include: { assignedToUser: true },
   });
 
-  const issueCount = await db.issue.count({ where });
+  const issueCount = await prismaClient.issue.count({ where });
 
   return (
     <Flex direction="column" gap="3">

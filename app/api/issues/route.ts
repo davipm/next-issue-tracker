@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse as res } from "next/server";
-import { db } from "@/lib/db";
+import { prismaClient } from "@/lib/db";
 import authOptions from "@/lib/auth";
 import { issueSchema } from "@/schema/validationSchema";
 import { getServerSession } from "next-auth";
@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
 
   if (!validation.success) return res.json(validation.error.format(), { status: 400 });
 
-  const newIssues = await db.issue.create({
+  const newIssues = await prismaClient.issue.create({
     data: {
       title: body.title,
       description: body.description,

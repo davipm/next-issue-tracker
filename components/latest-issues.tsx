@@ -1,10 +1,10 @@
-import { db } from "@/lib/db";
+import { prismaClient } from "@/lib/db";
 import { Avatar, Card, Flex, Heading, Table } from "@radix-ui/themes";
 import Link from "next/link";
 import { IssueStatusBadge } from "@/components/issue-status-badge";
 
 export async function LatestIssues() {
-  const issues = await db.issue.findMany({
+  const issues = await prismaClient.issue.findMany({
     orderBy: { createdAt: "desc" },
     take: 5,
     include: { assignedToUser: true },

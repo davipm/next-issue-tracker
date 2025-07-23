@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse as res } from "next/server";
-import { db } from "@/lib/db";
+import { prismaClient } from "@/lib/db";
 import { patchIssueSchema } from "@/schema/validationSchema";
 import authOptions from "@/lib/auth";
 
@@ -22,14 +22,14 @@ export async function PATCH(req: NextRequest, { params }: Params) {
   const { assignedToUserId, title, description } = body;
 
   if (assignedToUserId) {
-    const user = await db.user.findUnique({
+    const user = await prismaClient.user.findUnique({
       where: { id: assignedToUserId },
     });
 
     if (!user) return res.json({ error: "Invalid user." }, { status: 400 });
   }
 
-  const issue = await db.issue.findUnique({
+  const issue = await prismaClient.issue.findUnique({
     where: { id: parseInt(params.id) },
   });
 
@@ -37,7 +37,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
     return res.json({ error: "Invalid issue" }, { status: 404 });
   }
 
-  const updatedIssue = await db.issue.update({
+  const updatedIssue = await prismaClient.issue.update({
     where: { id: issue.id },
     data: {
       title,
@@ -53,13 +53,13 @@ export async function DELETE(req: NextRequest, { params }: Params) {
   const session = await getServerSession(authOptions);
   if (!session) return res.json({}, { status: 401 });
 
-  const issue = await db.issue.findUnique({
+  const issue = await prismaClient.issue.findUnique({
     where: { id: parseInt(params.id) },
   });
 
   if (!issue) return res.json({ error: "Invalid issue." }, { status: 400 });
 
-  await db.issue.delete({ where: { id: issue.id } });
+  await prismaClient.issue.delete({ where: { id: issue.id } });
 
   return res.json({});
 }
